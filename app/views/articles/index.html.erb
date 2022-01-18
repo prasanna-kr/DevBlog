@@ -1,0 +1,14 @@
+ <div id="templatemo_main">
+    <% @articles.each do |article| %>
+        <div class="post_section">
+        
+            <span class="comment"><a href="blog_post.html"><%= article.comments.count %></a></span>
+        
+            <h2><a href="<%= article_path(article)%>"><%= article.title %></a></h2>
+            
+
+            <%= article.created_at %> 
+                            
+        </div>
+    <% end %>
+</div>

@@ -1,0 +1,76 @@
+<div id="templatemo_main">
+        
+    <div class="post_section">
+    
+        <span class="comment"><a href="fullpost.html"><%= @article.comments.count %></a></span>
+    
+        <h2><%= @article.title %> </h2>
+
+        <%= @article.created_at %>          
+        
+        <p><%= @article.body %></p>
+        
+        <ul>
+            <% if current_user.id == @article.user_id %>
+                <li><%= link_to "Edit", edit_article_path(@article) %></li>
+                <li><%= link_to "Destroy", @article, method: :delete, data: { confirm: 'Are you sure?' } %>
+                </li>
+            <% end %>
+        </ul>
+    </div>
+        
+    <div class="comment_tab">
+        Comments           
+    </div>
+        
+    <div id="comment_section">
+        <ol class="comments first_level">
+            <% @article.comments.each do |comment| %>
+                <li>
+                    <div class="comment_box commentbox1">
+                        <div class="comment_text">
+                            <div class="comment_author"><%= comment.name %><span class="date"><%= comment.created_at %></span></div>
+                            <p><%= comment.comment %></p>
+                            <% if current_user.id == comment.user_id %>
+                                <div class="reply"><%= link_to "Destroy", [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' } %></div>
+                            <% end %>
+                        </div>
+                        
+                        <div class="cleaner"></div>
+                    </div>  
+                    
+                </li>
+            <% end %>
+        </ol>
+    </div>
+            
+    <div id="comment_form">
+        <h3>Leave a comment</h3>
+
+        <%= form_with model: [ @article, @article.comments.build ] do |form| %>
+            <div class="form_row">
+                <%= form.label :name %>
+                <br />
+                <%= form.text_field :name %>
+            </div>
+
+            <div class="form_row">
+                <%= form.label :email %>
+                <br />
+                <%= form.text_field :email %>
+            </div>
+
+            <div class="form_row">
+                <%= form.label :comment %> <br/>
+                <%= form.text_area :comment %>
+            </div><br/>
+            <%= form.hidden_field :user_id, :value => current_user.id %>
+            <div class="actions">
+                <%= form.submit class: "submit_btn"%>
+            </div>
+        <% end %>
+        
+    
+    </div>
+        
+</div> <!-- end of main -->
